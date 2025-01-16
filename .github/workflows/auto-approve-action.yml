@@ -4,9 +4,15 @@ on:
   workflow_call:
     inputs:
       environment:
+        description: 'environment'
+        type: string
+        required: false
   workflow_dispatch:
     inputs:
       environment:
+        description: 'environment'
+        type: string
+        required: false
 
 jobs:
   auto-approve:
