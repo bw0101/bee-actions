@@ -3,7 +3,7 @@ Implement GitHub Actions workflows
 
 handle pull request
 
-auto approve scripts in github workflows
+auto approve scripts in github workflows with more possibilities
 
 ## TODOs:
 Benefits of Extending:
