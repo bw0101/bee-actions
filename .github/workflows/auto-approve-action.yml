@@ -21,8 +21,21 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: github.actor == 'bw0101'
+#    if: github.actor == 'bw0101'
+# Allow multiple authorized actors by using a list
+    if: contains('bw0101,anotherUser', github.actor)
+# Use the environment input to perform environment-specific approvals
+#    if: github.event.inputs.environment == 'production'
+
     steps:
+      - name: Run CodeQL Analysis
+        uses: github/codeql-action/analyze@v2
+      - name: Auto approve
+        if: ${{ success() }}
       - uses: hmarr/auto-approve-action@v4
         with:
           pull-request-number: ${{ github.event.pull_request.number }}
+      - name: Notify              
+        run: |
+          echo 1. auto approve processed
+          echo 2. "PR #${{ github.event.pull_request.number }} was auto-approved."
