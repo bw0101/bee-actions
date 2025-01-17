@@ -27,8 +27,9 @@ jobs:
     if: contains('bw0101,anotherUser', github.actor)
 
     steps:
-      - name: Run CodeQL Analysis
-        uses: github/codeql-action/analyze@v2
+      - name: start              
+        run: |
+          echo 1. auto approve started
       - name: Auto approve
         if: ${{ success() }}
         uses: hmarr/auto-approve-action@v4
