@@ -51,3 +51,24 @@ jobs:
         echo 1. Add further steps to backend,
         echo 2. Test, and deploy your project.
         echo 3. Solve monitoring
+
+    autom-approve-pr:
+      if: github.actor in 'bw1010,dependabot[bot]'
+      runs-on: ubuntu-latest
+      env:
+        # GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      permissions:
+        contents: write
+        pull-requests: write
+      steps:
+        - uses: actions/checkout@v4
+        - name: Approve a PR if not already approved
+          run: |
+            gh pr checkout "$PR_NUMBER" # sets the upstream metadata for `gh pr status`
+            if [ "$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)" != "APPROVED" ];
+            then gh pr review --approve "$PR_NUMBER"
+            else echo "PR already approved, skipping additional approvals to minimize emails/notification noise.";
+            fi
+        - name: Enable auto-merge
+          run: gh pr merge --auto --merge "$PR_NUMBER"
