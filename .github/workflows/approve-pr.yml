@@ -53,7 +53,7 @@ jobs:
           echo 3. Solve monitoring
 
   autom-approve-pr:
-    if: github.actor in 'bw1010,dependabot[bot]'
+    if: github.actor == 'bw1010'
     runs-on: ubuntu-latest
     env:
       # GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
