@@ -28,7 +28,8 @@ jobs:
 
       - name : Notes
         run: |
-          echo 1. Add further steps to this step
+          echo 1. Info:
+          echo "The tech user is: ${{ secrets.TECH_USER }}"
     
   notes-todos:
     runs-on: ubuntu-latest
@@ -37,7 +38,7 @@ jobs:
         run: |
           echo 1. Add further steps ,
           echo 2. Test, approve and merge your.
-          echo 3. Go to 1.
+          echo 3. Go to 1. 
 
   autom-approve-pr:
     runs-on: ubuntu-latest
@@ -54,7 +55,7 @@ jobs:
           fi
         with:
           username: ${{ secrets.TECH_USER }}
-          password: ${{ secrets.TECH_USER_JFROG_PLATFORM_API_KEY }}
+          password: ${{ secrets.TECH_USER_KEY }}
 
   autom-merge-pr:
     runs-on: ubuntu-latest
