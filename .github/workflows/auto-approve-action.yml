@@ -14,10 +14,10 @@ on:
         type: string
         required: false
   pull_request:
-    types: [opened, synchronize, reopened]
     branches:
       - main
       - release/*
+    types: [opened, synchronize, reopened]
 
 jobs:
   auto-approve:
@@ -27,15 +27,17 @@ jobs:
     if: contains('bw0101,anotherUser', github.actor)
 
     steps:
-      - name: start              
+      - name: Start
         run: |
           echo 1. auto approve started
+          
       - name: Auto approve
         if: ${{ success() }}
         uses: hmarr/auto-approve-action@v4
         with:
           pull-request-number: ${{ github.event.pull_request.number }}
-      - name: Notify              
+
+      - name: Notify
         run: |
-          echo 1. auto approve processed
-          echo 2. "PR #${{ github.event.pull_request.number }} was auto-approved."
+          echo 2. auto approve processed
+          echo "PR #${{ github.event.pull_request.number }} was auto-approved."
