@@ -5,6 +5,8 @@ handle pull request
 
 auto approve scripts in github workflows with more possibilities
 
+pr tor test
+
 ## TODOs:
 Benefits of Extending:
 Increases control and security.
