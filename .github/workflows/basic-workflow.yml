@@ -8,14 +8,14 @@ on:
 
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  pre-steps:
+
+  build:
     runs-on: ubuntu-latest
+
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: code checkout
-      - uses: actions/checkout@v4
+      - name: check out
+        uses: actions/checkout@v4
 
       # Runs a single command using the runners shell
       - name: Print message
@@ -26,19 +26,3 @@ jobs:
         run: |
           echo 1. Add other actions to build,
           echo 2. test, and deploy your project.
-
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-      - name: code checkout
-      - uses: actions/checkout@v4
-
-      - name: Setup Java JDK
-      - uses: actions/setup-java@v4.6.0
-        with:
-          # The Java version to set up. Takes a whole or semver Java version. See examples of supported syntax in README file
-          java-version: 21
-          # Java distribution. See the list of supported distributions in README file
-          distribution: 'temurin'
-        

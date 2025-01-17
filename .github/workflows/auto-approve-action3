@@ -1,0 +1,74 @@
+name: Pull Request auto approve
+
+on:
+  workflow_dispatch:
+  pull_request:
+    types: [ opened, reopened, synchronize ]
+  push:
+    branches: [ main ]
+
+permissions:
+  checks: write
+  pull-requests: write
+  actions: read
+  contents: read
+
+env:
+  NODE_VERSION: 22
+
+jobs:
+  check-todos:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name : Notes
+        run: |
+        echo 1. Add further steps to this step
+    
+
+  backend-todos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: '0'
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: 21
+
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
+
+      - name : Notes
+        un: |
+        echo 1. Add further steps to backend,
+        echo 2. Test, and deploy your project.
+        echo 3. Solve monitoring
+
+    autom-approve-pr:
+      if: github.actor in 'bw1010,dependabot[bot]'
+      runs-on: ubuntu-latest
+      env:
+        # GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PR_NUMBER: ${{ github.event.pull_request.number }}
+      permissions:
+        contents: write
+        pull-requests: write
+      steps:
+        - uses: actions/checkout@v4
+        - name: Approve a PR if not already approved
+          run: |
+            gh pr checkout "$PR_NUMBER" # sets the upstream metadata for `gh pr status`
+            if [ "$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)" != "APPROVED" ];
+            then gh pr review --approve "$PR_NUMBER"
+            else echo "PR already approved, skipping additional approvals to minimize emails/notification noise.";
+            fi
+        - name: Enable auto-merge
+          run: gh pr merge --auto --merge "$PR_NUMBER"
