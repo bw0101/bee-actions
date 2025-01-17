@@ -3,7 +3,7 @@ name: Pull Request auto approve
 on:
   workflow_dispatch:
   pull_request:
-    types: [ opened, reopened, synchronize ]
+    types: [ opened, synchronize ]
   push:
     branches: [ main ]
 
@@ -20,38 +20,10 @@ jobs:
   check-todos:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
       - name : Notes
         run: |
-          echo 1. Add further steps to this step
+          echo 1. Add further steps if necessary
     
-
-  backend-todos:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: '0'
-
-      - name: Setup Java
-        uses: actions/setup-java@v4
-        with:
-          distribution: 'temurin'
-          java-version: 21
-
-      - name: Setup Gradle
-        uses: gradle/actions/setup-gradle@v4
-
-      - name : Notes
-        run: |
-          echo 1. Add further steps to backend,
-          echo 2. Test, and deploy your project.
-          echo 3. Solve monitoring
-
   autom-approve-pr:
     runs-on: ubuntu-latest
     env:
