@@ -5,7 +5,7 @@ handle pull request
 
 auto approve scripts in github workflows with more possibilities
 
-pr tor test
+pr tor test test test pr
 
 ## TODOs:
 Benefits of Extending:
