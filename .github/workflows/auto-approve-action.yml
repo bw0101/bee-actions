@@ -34,7 +34,7 @@ jobs:
     name: Init process
     env:
       TECH_USER_SECRET: ${{ secrets.TECH_USER_SECRET }}
-      TECH_USER: ${{ variables.TECH_USER }}
+      TECH_USER: ${{ vars.TECH_USER }}
     runs-on: ubuntu-latest
     steps:
       - name: Add inputs to Summary
@@ -45,7 +45,7 @@ jobs:
             echo "| PR_REPO       | ${{ inputs.PR_REPO }} | "
             echo "| Tech user sec | $TECH_USER_SECRET | "
             echo "| Tech user     | $TECH_USER | "    
-            echo "| Tech user var | ${{ variables.TECH_USER }} | "       
+            echo "| Tech user var | ${{ vars.TECH_USER }} | "       
  #         {
             
  #         } >> $GITHUB_STEP_SUMMARY
