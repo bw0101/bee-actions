@@ -47,7 +47,7 @@ jobs:
       TECH_USER_SECRET: ${{ secrets.TECH_USER_SECRET }}
     permissions:
       pull-requests: write
-    if: contains('bw0101,anotherUser,${{ secrets.TECH_USER_SECRET }}', github.actor)
+    if: contains('bw0101,anotherUser,${{ TECH_USER_SECRET }}', github.actor)
 
     steps:         
       - name: PR approve 1
