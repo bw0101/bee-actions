@@ -6,19 +6,23 @@ on:
       PR_REPO:
         type: string
         required: true
+        
       PR_REF:
         type: string
         required: true
+        
       environment:
         description: 'environment'
         type: string
         required: false
+        
   workflow_dispatch:
     inputs:
       environment:
         description: 'environment'
         type: string
         required: false
+        
   pull_request:
     branches:
       - main
@@ -32,13 +36,15 @@ jobs:
       - name: Add inputs to Summary
         if: inputs.PR_REPO
         run: |
-          {
-            echo "#### Inputs "
+          echo "#### Inputs "
             echo "| Arg          | Value | " 
             echo "| ____________ | _____ | "
             echo "| PR_REPO      | ${{ inputs.PR_REPO }} | "
-            echo "| PR_REF       | ${{ inputs.PR_REF }} | "
-          } >> $GITHUB_STEP_SUMMARY
+            echo "| Tech user    | $TECH_USER_SECRET | "
+            echo "| PR_REF       | ${{ inputs.PR_REF }} | "       
+ #         {
+            
+ #         } >> $GITHUB_STEP_SUMMARY
   auto-approve:
     runs-on: ubuntu-latest
     env:
@@ -47,14 +53,14 @@ jobs:
       TECH_USER_SECRET: ${{ secrets.TECH_USER_SECRET }}
     permissions:
       pull-requests: write
-    if: contains('bw0101,anotherUser', github.actor)
+    if: contains('bw0101,anotherUser, $TECH_USER_SECRET', github.actor)
 
     steps:         
-#      - name: PR approve 1  ok
-#        if: ${{ success() }}
-#        uses: hmarr/auto-approve-action@v4
-#        with:
-#          pull-request-number: ${{ github.event.pull_request.number }}
+      - name: PR approve 1  ok
+        if: ${{ success() }}
+        uses: hmarr/auto-approve-action@v4
+        with:
+          pull-request-number: ${{ github.event.pull_request.number }}
 
   # if: contains('bw0101,anotherUser,${{ secrets.TECH_USER_SECRET }}', github.actor)        
  
@@ -67,20 +73,20 @@ jobs:
 #          # Secret GitHub API token to use for making API requests.
 #          GITHUB_TOKEN: ${{ github.token }}#
       
-      - name: PR Approve 3  Approve a PR if not already approved
-        if: github.event_name == 'push' || (github.event_name == 'pull_request' &&  github.event.action != 'closed' ) 
-        uses: actions/checkout@v4
+#      - name: PR Approve 3  Approve a PR if not already approved
+#        if: github.event_name == 'push' || (github.event_name == 'pull_request' &&  github.event.action != 'closed' ) 
+#        uses: actions/checkout@v4
         
-      - name: PR Approve 3   
-        run: |
-          gh pr checkout "$PR_NUMBER" # sets the upstream metadata for `gh pr status`
-          if [ "$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)" != "APPROVED" ];
-          then gh pr review --approve "$PR_NUMBER"
-          else echo "PR already approved, skipping additional approvals to minimize emails/notification noise.";
-          fi
+#      - name: PR Approve 3   
+#        run: |
+#          gh pr checkout "$PR_NUMBER" # sets the upstream metadata for `gh pr status`
+#          if [ "$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)" != "APPROVED" ];
+#          then gh pr review --approve "$PR_NUMBER"
+#          else echo "PR already approved, skipping additional approvals to minimize emails/notification noise.";
+#          fi
             
-      - name: Enable auto-merge
-        run: |
-          echo start merge soon ...
-          gh pr merge --auto --merge "$PR_NUMBER"
+#      - name: Enable auto-merge
+#        run: |
+#          echo start merge soon ...
+#          gh pr merge --auto --merge "$PR_NUMBER"
 
