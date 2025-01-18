@@ -4,19 +4,32 @@ on:
   workflow_dispatch:
   pull_request:
     types: [ opened, synchronize ]
+    branches: [ main ]
+    paths-ignore:
+      - 'README.md'
+      - '.github/workflowa/template.yml'
+    
   push:
     branches: [ main ]
 
 permissions:
-  checks: write
   pull-requests: write
   actions: read
   contents: read
+  checks: write
 
 env:
   NODE_VERSION: 22
 
-jobs:
+jobs:          
+  validate:
+    if: github.event_name == 'push' || (github.event_name == 'pull_request' &&  github.event.action != 'closed' )
+    uses: bw0101/bee-actions/.github/workflows/auto-approve-action.yml@main
+    with:
+      PR_REPO: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
+      PR_REF: ${{ github.event.pull_request.head.ref || 'main' }}
+    secrets: inherit
+
   check-todos:
     runs-on: ubuntu-latest
     steps:
@@ -33,6 +46,7 @@ jobs:
       contents: write
       pull-requests: write
     steps:
+      - if: github.event_name == 'push' || (github.event_name == 'pull_request' &&  github.event.action != 'closed' ) 
       - uses: actions/checkout@v4
       - name: Approve a PR if not already approved
         run: |
@@ -43,3 +57,17 @@ jobs:
           fi
       - name: Enable auto-merge
         run: gh pr merge --auto --merge "$PR_NUMBER"
+
+  auto-approve-pr-2:
+    runs-on: ubuntu-latest
+    steps:
+      - if: github.event_name == 'pull_request' && github.event.action != 'closed'
+      - name: PR Approve
+        # You may pin to the exact commit or the version.
+        # uses: actions-cool/pr-approve@ac3ebe5106936925c3c656a8cd3d5a89fa8325c0
+        uses: actions-cool/pr-approve@v0.0.1-beat
+        with:
+          # Secret GitHub API token to use for making API requests.
+          GITHUB_TOKEN: ${{ github.token }}
+          
+  
