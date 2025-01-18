@@ -55,9 +55,8 @@ jobs:
 #        uses: hmarr/auto-approve-action@v4
 #        with:
 #          pull-request-number: ${{ github.event.pull_request.number }}
-
-      - if: github.event_name == 'pull_request' && github.event.action != 'closed'
       - name: PR Approve 2
+        if: github.event_name == 'pull_request' && github.event.action != 'closed'
         # You may pin to the exact commit or the version.
         # uses: actions-cool/pr-approve@ac3ebe5106936925c3c656a8cd3d5a89fa8325c0
         uses: actions-cool/pr-approve@v0.0.1-beat
