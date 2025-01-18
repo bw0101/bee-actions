@@ -41,15 +41,39 @@ jobs:
           } >> $GITHUB_STEP_SUMMARY
   auto-approve:
     runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PR_NUMBER: ${{ github.event.pull_request.number }}
+      TECH_USER_SECRET: ${{ secrets.TECH_USER_SECRET }}
     permissions:
       pull-requests: write
-    if: contains('bw0101,anotherUser', github.actor)
-#   if: contains('bw0101,anotherUser,${{ secrets.TECH_USER_SECRET }}', github.actor)
+    if: contains('bw0101,anotherUser,${{ secrets.TECH_USER_SECRET }}', github.actor)
 
     steps:         
-      - name: Auto approve
-        if: ${{ success() }}
-        uses: hmarr/auto-approve-action@v4
-        with:
-          pull-request-number: ${{ github.event.pull_request.number }}
+#      - name: PR approve 1
+#        if: ${{ success() }}
+#        uses: hmarr/auto-approve-action@v4
+#        with:
+#          pull-request-number: ${{ github.event.pull_request.number }}
+
+#      - if: github.event_name == 'pull_request' && github.event.action != 'closed'
+#      - name: PR Approve 2
+#        # You may pin to the exact commit or the version.
+#        # uses: actions-cool/pr-approve@ac3ebe5106936925c3c656a8cd3d5a89fa8325c0
+#        uses: actions-cool/pr-approve@v0.0.1-beat
+#        with:
+#          # Secret GitHub API token to use for making API requests.
+#          GITHUB_TOKEN: ${{ github.token }}#
+
+      - if: github.event_name == 'push' || (github.event_name == 'pull_request' &&  github.event.action != 'closed' ) 
+      - uses: actions/checkout@v4
+      - name: PR Approve 3 - Approve a PR if not already approved
+        run: |
+          gh pr checkout "$PR_NUMBER" # sets the upstream metadata for `gh pr status`
+          if [ "$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)" != "APPROVED" ];
+          then gh pr review --approve "$PR_NUMBER"
+          else echo "PR already approved, skipping additional approvals to minimize emails/notification noise.";
+          fi
+      - name: Enable auto-merge
+ #       run: gh pr merge --auto --merge "$PR_NUMBER"
 
