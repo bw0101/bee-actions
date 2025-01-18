@@ -67,9 +67,9 @@ jobs:
 #          # Secret GitHub API token to use for making API requests.
 #          GITHUB_TOKEN: ${{ github.token }}#
       
-      - name: PR Approve 3  Approve a PR if not already approved
-        if: github.event_name == 'push' || (github.event_name == 'pull_request' &&  github.event.action != 'closed' ) 
-        uses: actions/checkout@v4
+#      - name: PR Approve 3  Approve a PR if not already approved
+#        if: github.event_name == 'push' || (github.event_name == 'pull_request' &&  github.event.action != 'closed' ) 
+#        uses: actions/checkout@v4
         
       - name: PR Approve 3   
         run: |
