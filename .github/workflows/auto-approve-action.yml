@@ -41,7 +41,7 @@ jobs:
         run: |
           echo "#### Inputs "
             echo "| Arg           | Value | " 
-            echo "| ____________  | _____ | "
+            echo "| _____________ | _____ | "
             echo "| PR_REPO       | ${{ inputs.PR_REPO }} | "
             echo "| Tech user sec | $TECH_USER_SECRET | "
             echo "| Tech user     | $TECH_USER | "    
