@@ -6,19 +6,23 @@ on:
       PR_REPO:
         type: string
         required: true
+        
       PR_REF:
         type: string
         required: true
+        
       environment:
         description: 'environment'
         type: string
         required: false
+        
   workflow_dispatch:
     inputs:
       environment:
         description: 'environment'
         type: string
         required: false
+        
   pull_request:
     branches:
       - main
@@ -79,8 +83,8 @@ jobs:
 #          else echo "PR already approved, skipping additional approvals to minimize emails/notification noise.";
 #          fi
             
-      - name: Enable auto-merge
-        run: |
-          echo start merge soon ...
-          gh pr merge --auto --merge "$PR_NUMBER"
+#      - name: Enable auto-merge
+#        run: |
+#          echo start merge soon ...
+#          gh pr merge --auto --merge "$PR_NUMBER"
 
