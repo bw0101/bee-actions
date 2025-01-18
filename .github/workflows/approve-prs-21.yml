@@ -65,4 +65,6 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Enable auto-merge
-        run: gh pr merge --auto --merge "$PR_NUMBER"
+        run: | 
+          echo Imlpement this ...
+      #    gh pr merge --auto --merge "$PR_NUMBER"
