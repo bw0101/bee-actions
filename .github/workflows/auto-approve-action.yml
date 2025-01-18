@@ -43,7 +43,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: contains('bw0101,anotherUser', github.actor)
+    if: contains('bw0101,anotherUser,${{ secrets.TECH_USER }}', github.actor)
 
     steps:         
       - name: Auto approve
