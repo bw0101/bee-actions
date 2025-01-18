@@ -1,8 +1,14 @@
-name: Auto approve
+name: auto approve action
 
 on:
   workflow_call:
     inputs:
+      PR_REPO:
+        type: string
+        required: true
+      PR_REF:
+        type: string
+        required: true
       environment:
         description: 'environment'
         type: string
@@ -20,11 +26,24 @@ on:
     types: [opened, synchronize, reopened]
 
 jobs:
+  init: 
+    runs-on: ubuntu-latest
+    steps:
+      - name: Add inputs to Summary
+        if: inputs.PR_REPO
+        run: |
+          {
+            echo "#### Inputs "
+            echo "| Arg          | Value | " 
+            echo "| ____________ | _____ | "
+            echo "| PR_REPO      | ${{ inputs.PR_REPO }} | "
+            echo "| PR_REF       | ${{ inputs.PR_REF }} | "
+          } >> $GITHUB_STEP_SUMMARY
   auto-approve:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: contains('bw0101,anotherUser', github.actor)
+    if: contains('bw0101,anotherUser,${{ secrets.TECH_USER_SECRET }}', github.actor)
 
     steps:         
       - name: Auto approve
