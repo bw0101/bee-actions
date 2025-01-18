@@ -34,7 +34,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add inputs to Summary
-        if: inputs.PR_REPO
         run: |
           echo "#### Inputs "
             echo "| Arg          | Value | " 
