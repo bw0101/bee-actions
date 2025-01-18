@@ -50,11 +50,11 @@ jobs:
     if: contains('bw0101,anotherUser', github.actor)
 
     steps:         
-#      - name: PR approve 1  ok
-#        if: ${{ success() }}
-#        uses: hmarr/auto-approve-action@v4
-#        with:
-#          pull-request-number: ${{ github.event.pull_request.number }}
+      - name: PR approve 1  ok
+        if: ${{ success() }}
+        uses: hmarr/auto-approve-action@v4
+        with:
+          pull-request-number: ${{ github.event.pull_request.number }}
 
   # if: contains('bw0101,anotherUser,${{ secrets.TECH_USER_SECRET }}', github.actor)        
  
@@ -71,13 +71,13 @@ jobs:
 #        if: github.event_name == 'push' || (github.event_name == 'pull_request' &&  github.event.action != 'closed' ) 
 #        uses: actions/checkout@v4
         
-      - name: PR Approve 3   
-        run: |
-          gh pr checkout "$PR_NUMBER" # sets the upstream metadata for `gh pr status`
-          if [ "$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)" != "APPROVED" ];
-          then gh pr review --approve "$PR_NUMBER"
-          else echo "PR already approved, skipping additional approvals to minimize emails/notification noise.";
-          fi
+#      - name: PR Approve 3   
+#        run: |
+#          gh pr checkout "$PR_NUMBER" # sets the upstream metadata for `gh pr status`
+#          if [ "$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)" != "APPROVED" ];
+#          then gh pr review --approve "$PR_NUMBER"
+#          else echo "PR already approved, skipping additional approvals to minimize emails/notification noise.";
+#          fi
             
       - name: Enable auto-merge
         run: |
