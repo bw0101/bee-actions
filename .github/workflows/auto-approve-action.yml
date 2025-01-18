@@ -31,16 +31,21 @@ on:
 
 jobs:
   init: 
+    name: Init process
+    env:
+      TECH_USER_SECRET: ${{ secrets.TECH_USER_SECRET }}
+      TECH_USER: ${{ variables.TECH_USER }}
     runs-on: ubuntu-latest
     steps:
       - name: Add inputs to Summary
         run: |
           echo "#### Inputs "
-            echo "| Arg          | Value | " 
-            echo "| ____________ | _____ | "
-            echo "| PR_REPO      | ${{ inputs.PR_REPO }} | "
-            echo "| Tech user    | $TECH_USER_SECRET | "
-            echo "| PR_REF       | ${{ inputs.PR_REF }} | "       
+            echo "| Arg           | Value | " 
+            echo "| _____________ | _____ | "
+            echo "| PR_REPO       | ${{ inputs.PR_REPO }} | "
+            echo "| Tech user sec | $TECH_USER_SECRET | "
+            echo "| Tech user     | $TECH_USER | "    
+            echo "| Tech user var | ${{ variables.TECH_USER }} | "       
  #         {
             
  #         } >> $GITHUB_STEP_SUMMARY
