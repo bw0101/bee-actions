@@ -34,7 +34,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Add inputs to Summary
-        if: inputs.PR_REPO
         run: |
           echo "#### Inputs "
             echo "| Arg          | Value | " 
@@ -46,14 +45,19 @@ jobs:
             
  #         } >> $GITHUB_STEP_SUMMARY
   auto-approve:
+    name: Auto approve of PR 
+    if: github.event_name == 'pull_request' && contains('bw0101,anotherUser, $TECH_USER_SECRET', github.actor)
     runs-on: ubuntu-latest
+    environment:
+      name: dev
+      url: 'http://dev.app.com'
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
       TECH_USER_SECRET: ${{ secrets.TECH_USER_SECRET }}
     permissions:
       pull-requests: write
-    if: contains('bw0101,anotherUser, $TECH_USER_SECRET', github.actor)
+#    if: contains('bw0101,anotherUser, $TECH_USER_SECRET', github.actor)
 
     steps:         
       - name: PR approve 1  ok
