@@ -21,14 +21,7 @@ permissions:
 env:
   NODE_VERSION: 22
 
-jobs:
-  check-todos:
-    runs-on: ubuntu-latest
-    steps:
-      - name : Notes
-        run: |
-          echo 1. Add further steps if necessary
-          
+jobs:          
   validate:
     if: github.event_name == 'push' || (github.event_name == 'pull_request' &&  github.event.action != 'closed' )
     uses: bw0101/bee-actions/.github/workflows/auto-approve-action.yml@main
@@ -36,6 +29,13 @@ jobs:
       PR_REPO: ${{ github.event.pull_request.head.repo.full_name || github.repository }}
       PR_REF: ${{ github.event.pull_request.head.ref || 'main' }}
     secrets: inherit
+
+  check-todos:
+    runs-on: ubuntu-latest
+    steps:
+      - name : Notes
+        run: |
+          echo 1. Add further steps if necessary
     
   autom-approve-pr:
     runs-on: ubuntu-latest
