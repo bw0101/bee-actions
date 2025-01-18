@@ -43,19 +43,32 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: write
-    if: contains('bw0101,anotherUser,${{ secrets.TECH_USER_SECRET }}', github.actor)
-
+    if: contains('bw0101,anotherUser', github.actor)
+  # if: contains('bw0101,anotherUser,${{ secrets.TECH_USER_SECRET }}', github.actor)
+     
     steps:         
       - name: Auto approve
         if: ${{ success() }}
         uses: hmarr/auto-approve-action@v4
         with:
           pull-request-number: ${{ github.event.pull_request.number }}
-      - name: Add inputs to Summary
+          
+      - name: to Summary on success
         if: ${{ success() }}
         run: |
           {
-            echo "#### PR Auto Approve  #### "
+            echo "#### PR Auto Approve on success  #### "
+            echo "| Arg          | Value | " 
+            echo "| ____________ | _____ | "
+            echo "| TECH_USER_SECRET      | ${{ secrets.TECH_USER_SECRET }} | "
+            echo "|              |       | "
+          } >> $GITHUB_STEP_SUMMARY
+
+      - name: to Summary on failure
+        if: ${{ failure() }}
+        run: |
+          {
+            echo "#### PR Auto Approve on failure #### "
             echo "| Arg          | Value | " 
             echo "| ____________ | _____ | "
             echo "| TECH_USER_SECRET      | ${{ secrets.TECH_USER_SECRET }} | "
