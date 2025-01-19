@@ -77,7 +77,7 @@ jobs:
             
             > # _____
             ## info
-            URL: http://https://github.com/bw0101/bee-actions/pull/${{ github.event.pull_request.number }}`;
+            URL: https://github.com/bw0101/bee-actions/pull/${{ github.event.pull_request.number }}`;
   
             github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
