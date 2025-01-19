@@ -73,12 +73,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Pull-request processed
-            > PR  ${{ github.event.pull_request.number }} has been processed
+            > PR  $PR_NUMBER has been processed
             
             URL: http://${{ steps.apply_output.outputs.stdout }}`;
   
             github.rest.issues.createComment({
-              issue_number: ${{ github.event.pull_request.number }},
+              issue_number: $PR_NUMBER,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
