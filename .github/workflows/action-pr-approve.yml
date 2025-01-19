@@ -77,7 +77,7 @@ jobs:
             
             > # ok
             # info
-            URL: http://' $URL '`;
+            URL: http://`;
   
             github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
