@@ -4,11 +4,18 @@ on:
   workflow_call:
             
   workflow_dispatch:
-           
+    inputs:
+      PR_number:
+        description: 'Pull request number'
+        required: true      
+  
   pull_request:
+
     branches:
       - main
     types: [opened, reopened]
+    
+
 
 jobs:
   init: 
@@ -18,6 +25,7 @@ jobs:
       TECH_USER: ${{ vars.TECH_USER }}
       URL: 'https://github.com/bw0101'
       ENVIRONMENT: 'dev'
+      PR_number: ${{ github.event.inputs.PR_number }}
     runs-on: ubuntu-latest
     steps:
       - name: Add inputs to Summary
@@ -56,3 +64,26 @@ jobs:
         uses: hmarr/auto-approve-action@v4
         with:
           pull-request-number: ${{ github.event.pull_request.number }}
+          
+    # ======================================================
+    # When we're done, we need to update the PR one more time
+    # with the results of the apply.
+    # ======================================================      
+      - name: Update status
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Pull-request processed
+            > PR #${{ github.event.inputs.PR_number }} has been processed
+            
+            URL: http://${{ steps.apply_output.outputs.stdout }}`;
+  
+            github.rest.issues.createComment({
+              issue_number: ${{ github.event.inputs.PR_number }},
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+    
+    
