@@ -73,9 +73,11 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Pull-request processed
-            > PR #$PR_NUMBER has been processed
+            > PR #${{ github.event.pull_request.number }} has been processed
             
-            URL: http://$URL`;
+            > # ok
+            # info
+            URL: http://${{ $URL }}`;
   
             github.rest.issues.createComment({
               issue_number: ${{ github.event.pull_request.number }},
