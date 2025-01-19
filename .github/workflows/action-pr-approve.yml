@@ -39,7 +39,7 @@ jobs:
     needs: init
     environment:
       name: $ENVIRONMENT
-      url: $URL
+      url: ${{ '$URL' }}
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
