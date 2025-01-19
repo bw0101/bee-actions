@@ -59,11 +59,10 @@ jobs:
             const response = await github.rest.pulls.get({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              pull_number: ${{ github.event.inputs.PR_number }}
+              pull_number: ${{ github.event.pull_request.number }}
             });
             
-            // Check if the pull request is open
-            if (response.data.number !== ${{ github.event.inputs.PR_number }}) {
+            if (response.data.number !== ${{ github.event.pull_request.number }}) {
               throw new Error('Pull request is not open or number is not valid!');
             } else {
               console.log("PR ref: " + response.data.head.ref);
