@@ -15,8 +15,6 @@ on:
       - main
     types: [opened, reopened]
     
-
-
 jobs:
   init: 
     name: Init process
@@ -80,7 +78,7 @@ jobs:
             URL: http://${{ steps.apply_output.outputs.stdout }}`;
   
             github.rest.issues.createComment({
-              issue_number: ${{ github.event.inputs.PR_number }},
+              issue_number: $PR_number,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
