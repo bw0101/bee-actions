@@ -16,7 +16,7 @@ jobs:
     env:
       TECH_USER_SECRET: ${{ secrets.TECH_USER_SECRET }}
       TECH_USER: ${{ vars.TECH_USER }}
-      URL: 'http://dev.app.com'
+      URL: 'https://github.com/bw0101'
       ENVIRONMENT: 'dev'
     runs-on: ubuntu-latest
     steps:
@@ -39,7 +39,7 @@ jobs:
     needs: init
     environment:
       name: $ENVIRONMENT
-      url: ${{ '$URL' }}
+      url: ${{ $URL }}
     env:
       GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       PR_NUMBER: ${{ github.event.pull_request.number }}
