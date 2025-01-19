@@ -31,7 +31,7 @@ jobs:
           echo "| Tech user var | ${{ vars.TECH_USER }} | " 
           echo "| URL           | $URL | " 
           echo "| ENVIRONMENT   | $ENVIRONMENT | " 
-          git diff --name-only
+          git diff --name-only origin/main
           echo " _________________________"
 
   auto-approve:
