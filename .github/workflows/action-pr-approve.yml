@@ -25,12 +25,14 @@ jobs:
           echo "#### env: "
           echo "| Name          | Value | " 
           echo "| _____________ | _____ | "
-          echo "| PR_REPO       | ${{ inputs.PR_REPO }} | "
+          echo "| PR_REPO       | ${{ inputs.PR_REPO }}    | "
           echo "| Tech user sec | $TECH_USER_SECRET | "
           echo "| Tech user     | $TECH_USER | "    
           echo "| Tech user var | ${{ vars.TECH_USER }} | " 
           echo "| URL           | $URL | " 
           echo "| ENVIRONMENT   | $ENVIRONMENT | " 
+          git diff --name-only
+          echo " _________________________"
 
   auto-approve:
     name: Auto approve of PR 
