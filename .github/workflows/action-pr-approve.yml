@@ -74,9 +74,10 @@ jobs:
           script: |
             const output = `#### Pull-request processed
             > PR #${{ github.event.pull_request.number }} has been processed
-            
+            by  ${{ github.actor }}
             > # _____
             ## info
+           
             URL: https://github.com/bw0101/bee-actions/pull/${{ github.event.pull_request.number }}`;
   
             github.rest.issues.createComment({
