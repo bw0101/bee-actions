@@ -23,7 +23,7 @@ jobs:
       TECH_USER: ${{ vars.TECH_USER }}
       URL: 'https://github.com/bw0101'
       ENVIRONMENT: 'dev'
-      PR_number: ${{ github.event.inputs.PR_number }}
+      PR_NUMBER: ${{ github.event.inputs.PR_number }}
     runs-on: ubuntu-latest
     steps:
       - name: Add inputs to Summary
@@ -73,12 +73,12 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             const output = `#### Pull-request processed
-            > PR #${{ github.event.inputs.PR_number }} has been processed
+            > PR  $PR_NUMBER has been processed
             
             URL: http://${{ steps.apply_output.outputs.stdout }}`;
   
             github.rest.issues.createComment({
-              issue_number: $PR_number,
+              issue_number: $PR_NUMBER,
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: output
