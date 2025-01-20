@@ -71,7 +71,8 @@ jobs:
   
   auto-approve:
     name: Auto approve of PR     
-    if: github.event_name == 'pull_request' && github.actor == vars.TECH_USER
+    if: github.event_name == 'pull_request' && github.actor == bw0101
+  #  if: github.event_name == 'pull_request' && github.actor == vars.TECH_USER
     runs-on: ubuntu-latest
     needs: init
     environment:
