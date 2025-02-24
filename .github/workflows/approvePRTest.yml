@@ -1,0 +1,52 @@
+name: approve PRs from sem techuser
+
+on:
+  workflow_call:
+            
+  workflow_dispatch:
+    inputs:
+      PR_number:
+        description: 'Pull request number'
+        required: true      
+  
+  pull_request:
+
+    branches:
+      - main
+    types: [opened, reopened]
+    
+jobs: 
+  auto-approve:
+    name: Auto approve of PR 
+    if: (github.event_name == 'pull_request' && (github.actor == vars.SEM_TECH_USER_DEV || github.actor == vars.TECH_USER)) || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    env:
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      PR_NUMBER: ${{ github.event.pull_request.number != null && github.event.pull_request.number || github.event.inputs.PR_number }}
+      SEM_TECH_USER_DEV: ${{ vars.SEM_TECH_USER_DEV }}
+      TECH_USER: ${{ vars.TECH_USER }}
+      URL: 'https://github.com/${{ github.repository }}.git'
+      ENVIRONMENT: 'dev'
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Optional: ensures full clone if required by gh CLI
+      - name: Approve a PR if not already approved
+        run: |
+          # Ensure the GitHub remote is properly set
+          git remote add origin $URL || git remote set-url origin $URL
+          # Ensure the PR branch is checked out and the remote is correctly configured
+          gh pr checkout "$PR_NUMBER"
+          # Retrieve the review decision for the current branch
+          review_decision=$(gh pr status --json reviewDecision -q .currentBranch.reviewDecision)
+          echo "Review decision: $review_decision"
+          # Approve the PR if it is not already approved
+          if [ "$review_decision" != "APPROVED" ]; then
+            echo "PR not approved yet; approving now..."
+            gh pr review --approve "$PR_NUMBER"
+          else
+            echo "PR already approved, skipping additional approvals to minimize emails/notification noise."
+          fi
