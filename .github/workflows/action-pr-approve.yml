@@ -92,10 +92,7 @@ jobs:
         with:
           pull-request-number: ${{ github.event.pull_request.number }}
           
-    # ======================================================
-    # When we're done, we need to update the PR one more time
-    # with the results of the apply.
-    # ======================================================      
+    
       - name: Update status
         uses: actions/github-script@v7
         with:
