@@ -1,0 +1,8 @@
+{
+  "release-type": "java",
+  "packages": {
+    ".": {
+      "package-name": "bee-actions"
+    }
+  }
+}
